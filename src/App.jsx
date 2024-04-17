@@ -1,14 +1,26 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard/Dashboard";
+// App.js
+import React, { useState } from "react";
+import SensorCard from "./components/SensorCard.jsx";
+import { fetchSensorData } from "./services/SensorService.js";
 
-const App = () => {
+function App() {
+  const [sensorData, setSensorData] = useState(fetchSensorData());
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
+    <div>
+      <h1>Dashboard Climático</h1>
+      <div>
+        {sensorData.map((sensor) => (
+          <SensorCard
+            key={sensor.type}
+            sensorType={sensor.type}
+            value={sensor.data.value}
+            unit={sensor.data.unit}
+          />
+        ))}
+      </div>
+    </div>
   );
-};
+}
 
 export default App;
