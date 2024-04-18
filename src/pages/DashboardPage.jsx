@@ -1,3 +1,4 @@
+// src/pages/DashboardPage.js
 import React, { useState, useEffect } from "react";
 import SensorCard from "../components/SensorCard";
 import getRandomSensorData from "../services/SensorDataService";
@@ -14,7 +15,15 @@ function DashboardPage() {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap", // Permite que os itens quebrem em múltiplas linhas
+        justifyContent: "space-around", // Espaçamento entre os cards
+        alignItems: "flex-start", // Alinha os itens ao topo
+        gap: "20px", // Espaço entre os cards
+      }}
+    >
       {sensors.map((sensor) => (
         <SensorCard key={sensor.type} sensor={sensor} />
       ))}
