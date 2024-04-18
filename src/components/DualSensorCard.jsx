@@ -8,12 +8,19 @@ const DualCard = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #333;
   overflow: hidden;
-  width: 600px;
-  height: 300px;
+  width: 100%; // Card é fluido
+  max-width: 600px; // Limite máximo para telas grandes
+  height: 300px; // Altura fixa para telas grandes
   font-family: "Arial", sans-serif;
   display: flex;
-  flex-direction: column;
+  flex-direction: row; // Layout horizontal por padrão
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Empilha os sensores verticalmente em telas menores
+    height: 600px; // Ajusta a altura para acomodar ambos os sensores empilhados
+    justify-content: space-between; // Distribui o espaço igualmente no eixo vertical
+  }
 
   &::before {
     content: "";
@@ -38,17 +45,25 @@ const DualCard = styled.div`
 
 const SensorContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
+  flex-direction: column; // Define explicitamente como coluna
+  justify-content: space-between; // Espaça os sensores no eixo vertical
+  padding: 30px;
+  height: 100%; // Ocupa toda a altura do DualCard
 `;
 
 const SensorInfo = styled.div`
-  background-color: rgba(255, 255, 255);
   border-radius: 16px;
-  padding: 10px;
   text-align: center;
   flex-grow: 1;
-  margin: 0 5px;
+  max-height: 80px; // Ajusta a altura máxima para melhor visualização
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  @media (max-width: 768px) {
+    max-width: 200px;
+  }
 `;
 
 const SensorType = styled.div`

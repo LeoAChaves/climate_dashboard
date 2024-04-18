@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from "react";
 import SensorCard from "../components/SensorCard";
-import DualSensorCard from "../components/DualSensorCard"; // Import the new component
+import DualSensorCard from "../components/DualSensorCard";
 import getRandomSensorData from "../services/SensorDataService";
+import styled from "styled-components";
+
+const DashboardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 20px;
+
+  @media (max-width: 768px) {
+    justify-content: space-between; // Garante o espaçamento uniforme entre os cartões
+  }
+
+  @media (min-width: 250px) and (max-width: 768px) {
+    justify-content: flex-start; // Alinha os cartões à esquerda
+  }
+`;
 
 function DashboardPage() {
   const [sensors, setSensors] = useState([]);
@@ -14,10 +32,9 @@ function DashboardPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Helper function to find and pair sensors of Umidade and Pressão
   const findAndPairSensors = (sensors) => {
     const paired = [];
-    const tempSensors = [...sensors]; // Clone to manipulate
+    const tempSensors = [...sensors];
 
     const humiditySensor = tempSensors.find(
       (sensor) => sensor.type === "Umidade"
@@ -54,19 +71,7 @@ function DashboardPage() {
     );
   };
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-around",
-        alignItems: "flex-start",
-        gap: "20px",
-      }}
-    >
-      {renderSensors()}
-    </div>
-  );
+  return <DashboardContainer>{renderSensors()}</DashboardContainer>;
 }
 
 export default DashboardPage;

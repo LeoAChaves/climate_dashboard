@@ -8,11 +8,19 @@ const Card = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #333;
   overflow: hidden;
-  width: 300px;
-  height: 300px;
-  font-family: "Arial", sans-serif;
+  width: 100%;
+  max-width: 300px; // Limita o tamanho máximo
+  aspect-ratio: 1; // Mantém a proporção de 1:1
 
-  // Pseudo-elemento para a imagem de fundo com opacidade
+  @media (max-width: 768px) {
+    max-width: 50%; // Ajusta para que dois cartões possam se alinhar lado a lado
+    height: auto; // Ajusta a altura baseada na largura para manter proporção
+  }
+
+  @media (max-width: 500px) {
+    max-width: 100%; // Ajusta para um cartão por linha em telas muito pequenas
+  }
+
   &::before {
     content: "";
     position: absolute;
@@ -23,12 +31,11 @@ const Card = styled.div`
     background-image: ${({ $backgroundImage }) => `url(${$backgroundImage})`};
     background-size: cover;
     background-position: center;
-    opacity: 1; // Ajuste a opacidade conforme desejado
-    border-radius: 20px; // Para manter os cantos arredondados
+    opacity: 1;
+    border-radius: 20px;
     z-index: 0;
   }
 
-  // Garante que o conteúdo do Card fique acima do pseudo-elemento
   > * {
     position: relative;
     z-index: 1;
@@ -36,7 +43,6 @@ const Card = styled.div`
 `;
 
 const ReadingBox = styled.div`
-  background-color: rgba(255, 255, 255);
   border-radius: 16px;
   padding: 10px 15px;
   position: absolute;
@@ -46,7 +52,6 @@ const ReadingBox = styled.div`
 `;
 
 const ClassificationBox = styled.div`
-  background-color: rgba(255, 255, 255);
   border-radius: 16px;
   padding: 10px;
   position: absolute; // Posiciona absolutamente dentro do Card
