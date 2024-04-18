@@ -1,12 +1,12 @@
 const unitMap = {
-  pressão: "[hPa]",
-  temperatura: "[°C]",
-  vento: "[m/s]",
-  uv: "[W/m²]",
-  umidade: "[%]",
-  luminosidade: "[Lux]",
-  pluviômetro: "[mm]",
-  co2: "[ppm]",
+  pressao: "hPa",
+  temperatura: "°C",
+  vento: "km/h",
+  uv: "W/m²",
+  umidade: "%",
+  luminosidade: "Lux",
+  pluviometro: "mm",
+  co2: "ppm",
 };
 
 function normalizeString(input) {
@@ -92,6 +92,24 @@ function getImageForSensor(type, value) {
       } else {
         imageSrc = "uv5.png";
         classification = "Extremo";
+      }
+      break;
+    case "umidade":
+      if (value < 20) {
+        imageSrc = "umidade1.png";
+        classification = "Sol Brilhante e Seco";
+      } else if (value < 40) {
+        imageSrc = "umidade2.png";
+        classification = "Sol Confortável";
+      } else if (value < 60) {
+        imageSrc = "umidade3.png";
+        classification = "Clima Ameno";
+      } else if (value < 80) {
+        imageSrc = "umidade4.png";
+        classification = "Preparação para Chuva";
+      } else {
+        imageSrc = "umidade5.png";
+        classification = "Véspera de Tempestade";
       }
       break;
     default:
