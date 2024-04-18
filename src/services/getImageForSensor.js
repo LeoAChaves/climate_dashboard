@@ -1,10 +1,22 @@
+const unitMap = {
+  pressão: "[hPa]",
+  temperatura: "[°C]",
+  vento: "[m/s]",
+  uv: "[W/m²]",
+  umidade: "[%]",
+  luminosidade: "[Lux]",
+  pluviômetro: "[mm]",
+  co2: "[ppm]",
+};
+
 function normalizeString(input) {
   return input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function getImageForSensor(type, value) {
-  let imageSrc, classification;
+  let imageSrc, classification, unit;
   const normalizedType = normalizeString(type).toLowerCase();
+  unit = unitMap[normalizedType];
 
   switch (normalizedType) {
     case "pressao": // Normalizado "pressão"
@@ -85,11 +97,13 @@ function getImageForSensor(type, value) {
     default:
       imageSrc = "default.png";
       classification = "Indefinido";
+      unit = "[N/A]";
   }
 
   return {
     imageSrc: `/assets/${normalizedType}/${imageSrc}`,
     classification,
+    unit,
   };
 }
 

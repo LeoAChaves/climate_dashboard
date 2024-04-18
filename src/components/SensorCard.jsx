@@ -10,7 +10,9 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 350px;
+  justify-content: space-around;
+  height: 300px;
+  width: 300px;
 `;
 
 const SensorImage = styled.img`
@@ -19,7 +21,7 @@ const SensorImage = styled.img`
   margin-right: 20px;
 `;
 
-const SensorValue = styled.div`
+const SensorDetails = styled.div`
   font-size: 18px;
   font-weight: bold;
 `;
@@ -30,7 +32,7 @@ const Classification = styled.div`
 `;
 
 function SensorCard({ sensor }) {
-  const { imageSrc, classification } = getImageForSensor(
+  const { imageSrc, classification, unit } = getImageForSensor(
     sensor.type,
     sensor.value
   );
@@ -38,7 +40,9 @@ function SensorCard({ sensor }) {
   return (
     <Card>
       <SensorImage src={imageSrc} alt={`Imagem ${classification}`} />
-      <SensorValue>{`${sensor.type}: ${sensor.value.toFixed(2)}`}</SensorValue>
+      <SensorDetails>{`${sensor.type} ${unit}: ${sensor.value.toFixed(
+        2
+      )}`}</SensorDetails>
       <Classification>{classification}</Classification>
     </Card>
   );
