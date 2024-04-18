@@ -14,12 +14,12 @@ function normalizeString(input) {
 }
 
 function getImageForSensor(type, value) {
-  let imageSrc, classification, unit;
+  let imageSrc, classification, unit, backgroundColor;
   const normalizedType = normalizeString(type).toLowerCase();
   unit = unitMap[normalizedType];
 
   switch (normalizedType) {
-    case "pressao": // Normalizado "pressão"
+    case "pressao":
       if (value < 900) {
         imageSrc = "pressao1.png";
         classification = "Muito Baixa - Tempestade Severa";
@@ -117,12 +117,61 @@ function getImageForSensor(type, value) {
       classification = "Indefinido";
       unit = "[N/A]";
   }
+  backgroundColor = getBackgroundColorForSensor(normalizedType, classification);
 
   return {
     imageSrc: `/assets/${normalizedType}/${imageSrc}`,
-    classification,
-    unit,
+    classification: classification,
+    unit: unit,
+    backgroundColor: backgroundColor, // novo retorno que inclui a cor de fundo
   };
+}
+
+function getBackgroundColorForSensor(type, classification) {
+  const base = classification.split(" - ")[0];
+  const colorMap = {
+    pressao: {
+      "Muito Baixa": "#B0C4DE", // Light Steel Blue
+      Baixa: "#ADD8E6", // Light Blue
+      Normal: "#87CEEB", // Sky Blue
+      Alta: "#4682B4", // Steel Blue
+      "Muito Alta": "#4169E1", // Royal Blue
+    },
+    temperatura: {
+      Congelando: "#B0E0E6", // Powder Blue
+      Frio: "#87CEFA", // Light Sky Blue
+      Fresco: "#4682B4", // Steel Blue
+      Quente: "#FF6347", // Tomato
+      "Calor Extremo": "#FF4500", // Orange Red
+    },
+    vento: {
+      "Vento Calmo": "#DAF7A6", // Pastel Green
+      "Brisa Leve": "#D4E157", // Light Lime
+      "Brisa Agradável": "#C5E1A5", // Pale Light Green
+      "Brisa Moderada": "#AED581", // Soft Lime Green
+      "Brisa Fresca": "#9CCC65", // Slightly Bright Green
+      "Brisa Forte": "#7CB342", // Moderate Olive
+    },
+    uv: {
+      Baixo: "#9ACD32", // Yellow Green
+      Moderado: "#FFFF00", // Yellow
+      Alto: "#FFD700", // Gold
+      "Muito Alto": "#FFA500", // Orange
+      Extremo: "#FF4500", // Orange Red
+    },
+    umidade: {
+      "Sol Brilhante e Seco": "#B3E5FC", // Light Blue
+      "Sol Confortável": "#81D4FA", // Lighter Blue
+      "Clima Ameno": "#4FC3F7", // Bright Light Blue
+      "Preparação para Chuva": "#29B6F6", // Sky Blue
+      "Véspera de Tempestade": "#039BE5", // Strong Blue
+    },
+    // Outros sensores podem seguir um padrão similar
+  };
+
+  return colorMap[type]
+    ? colorMap[type][base] || "rgba(255, 255, 255, 0.8)"
+    : "rgba(255, 255, 255, 0.8)";
 }
 
 export default getImageForSensor;

@@ -63,35 +63,35 @@ const SensorType = styled.div`
   font-size: 12px; // Fonte menor para o tipo do sensor
   font-weight: normal;
   text-align: center;
-  color: #666;
+  color: #222;
 `;
 
 const SensorValue = styled.div`
   font-size: 16px; // Fonte maior para o valor da leitura
   font-weight: bold;
-  color: #333;
+  color: #000;
   margin-top: 4px;
   text-align: center;
 `;
 
 const Classification = styled.div`
   font-size: 12px;
-  color: #666;
+  color: #222;
 `;
 
 function SensorCard({ sensor }) {
-  const { imageSrc, classification, unit } = getImageForSensor(
+  const { imageSrc, classification, unit, backgroundColor } = getImageForSensor(
     sensor.type,
     sensor.value
   );
 
   return (
     <Card $backgroundImage={imageSrc}>
-      <ReadingBox>
+      <ReadingBox style={{ backgroundColor }}>
         <SensorType>{sensor.type}</SensorType>
         <SensorValue>{`${sensor.value.toFixed(0)} ${unit}`}</SensorValue>
       </ReadingBox>
-      <ClassificationBox>
+      <ClassificationBox style={{ backgroundColor }}>
         <Classification>{classification}</Classification>
       </ClassificationBox>
     </Card>

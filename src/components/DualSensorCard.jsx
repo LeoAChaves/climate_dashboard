@@ -53,19 +53,19 @@ const SensorInfo = styled.div`
 
 const SensorType = styled.div`
   font-size: 12px;
-  color: #666;
+  color: #222;
 `;
 
 const SensorValue = styled.div`
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #000;
   margin-top: 4px;
 `;
 
 const Classification = styled.div`
   font-size: 12px;
-  color: #666;
+  color: #222;
   margin-top: 4px;
 `;
 
@@ -73,19 +73,17 @@ function DualSensorCard({ sensor1, sensor2 }) {
   const sensor1Data = getImageForSensor(sensor1.type, sensor1.value);
   const sensor2Data = getImageForSensor(sensor2.type, sensor2.value);
 
-  const backgroundImage = sensor1Data.imageSrc;
-
   return (
-    <DualCard $backgroundImage={backgroundImage}>
+    <DualCard $backgroundImage={sensor1Data.imageSrc}>
       <SensorContainer>
-        <SensorInfo>
+        <SensorInfo style={{ backgroundColor: sensor1Data.backgroundColor }}>
           <SensorType>{sensor1.type}</SensorType>
           <SensorValue>{`${sensor1.value.toFixed(0)} ${
             sensor1Data.unit
           }`}</SensorValue>
           <Classification>{sensor1Data.classification}</Classification>
         </SensorInfo>
-        <SensorInfo>
+        <SensorInfo style={{ backgroundColor: sensor2Data.backgroundColor }}>
           <SensorType>{sensor2.type}</SensorType>
           <SensorValue>{`${sensor2.value.toFixed(0)} ${
             sensor2Data.unit
