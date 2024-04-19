@@ -19,6 +19,27 @@ function getImageForSensor(type, value) {
   unit = unitMap[normalizedType];
 
   switch (normalizedType) {
+    case "pluviometro":
+      if (value === 0) {
+        imageSrc = "pluviometro0.png";
+        classification = "Sem Chuva";
+      } else if (value < 2.5) {
+        imageSrc = "pluviometro1.png";
+        classification = "Chuva Muito Leve";
+      } else if (value < 7.6) {
+        imageSrc = "pluviometro2.png";
+        classification = "Chuva Leve";
+      } else if (value < 16) {
+        imageSrc = "pluviometro3.png";
+        classification = "Chuva Moderada";
+      } else if (value < 50) {
+        imageSrc = "pluviometro4.png";
+        classification = "Chuva Forte";
+      } else {
+        imageSrc = "pluviometro5.png";
+        classification = "Chuva Torrencial";
+      }
+      break;
     case "pressao":
       if (value < 900) {
         imageSrc = "pressao1.png";
@@ -130,6 +151,14 @@ function getImageForSensor(type, value) {
 function getBackgroundColorForSensor(type, classification) {
   const base = classification.split(" - ")[0];
   const colorMap = {
+    pluviometro: {
+      "Sem Chuva": "#F0FFFF", // Azure, mais claro do que Alice Blue
+      "Chuva Muito Leve": "#B2DFEE", // Light Blue 2, um tom pastel de azul mais claro
+      "Chuva Leve": "#BFEFFF", // Deep Sky Blue 2, mais pastel
+      "Chuva Moderada": "#9AC0CD", // Light Blue 4, mais suave e pastel
+      "Chuva Forte": "#68838B", // Light Blue 4, mais escuro, mas ainda pastel
+      "Chuva Torrencial": "#607B8B", // Light Sky Blue 4, suave e pastel
+    },
     pressao: {
       "Muito Baixa": "#B0C4DE", // Light Steel Blue
       Baixa: "#ADD8E6", // Light Blue
@@ -170,8 +199,8 @@ function getBackgroundColorForSensor(type, classification) {
   };
 
   return colorMap[type]
-    ? colorMap[type][base] || "rgba(255, 255, 255, 0.8)"
-    : "rgba(255, 255, 255, 0.8)";
+    ? colorMap[type][base] || "rgba(255, 255, 255)"
+    : "rgba(255, 255, 255)";
 }
 
 export default getImageForSensor;

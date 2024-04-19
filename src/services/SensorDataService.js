@@ -1,5 +1,12 @@
 function getRandomSensorData() {
-  const sensorTypes = ["Pressão", "Temperatura", "UV", "Vento", "Umidade"];
+  const sensorTypes = [
+    "Pressão",
+    "Temperatura",
+    "UV",
+    "Vento",
+    "Umidade",
+    "Pluviômetro",
+  ]; // Adicionado "Pluviômetro"
   return sensorTypes.map((type) => {
     let value;
     switch (type) {
@@ -17,6 +24,9 @@ function getRandomSensorData() {
         break;
       case "Umidade":
         value = Math.floor(Math.random() * 100);
+        break;
+      case "Pluviômetro":
+        value = Math.floor(Math.random() * 70); // Definir valor aleatório para o Pluviômetro
         break;
       default:
         value = 0;
