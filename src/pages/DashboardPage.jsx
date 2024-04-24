@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SensorCard from "../components/SensorCard";
 import DualSensorCard from "../components/DualSensorCard";
 import getRandomSensorData from "../services/SensorDataService";
+import LoadingPage from "./LoadingPage"; // Import LoadingPage component
 import styled from "styled-components";
 
 const DashboardContainer = styled.div`
@@ -13,22 +14,28 @@ const DashboardContainer = styled.div`
   margin: 20px;
 
   @media (max-width: 768px) {
-    justify-content: space-between; // Garante o espaçamento uniforme entre os cartões
+    justify-content: space-between;
   }
 
   @media (min-width: 250px) and (max-width: 768px) {
-    justify-content: flex-start; // Alinha os cartões à esquerda
+    justify-content: flex-start;
   }
 `;
 
 function DashboardPage() {
   const [sensors, setSensors] = useState([]);
+  const [loading, setLoading] = useState(true); // State to handle loading
 
   useEffect(() => {
-    setSensors(getRandomSensorData());
-    const interval = setInterval(() => {
-      setSensors(getRandomSensorData());
-    }, 5000);
+    async function fetchSensors() {
+      setLoading(true); // Start loading
+      const data = await getRandomSensorData();
+      setSensors(data);
+      setLoading(false); // End loading after data is fetched
+    }
+
+    fetchSensors();
+    const interval = setInterval(fetchSensors, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -70,6 +77,10 @@ function DashboardPage() {
       </>
     );
   };
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return <DashboardContainer>{renderSensors()}</DashboardContainer>;
 }
