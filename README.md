@@ -1,70 +1,245 @@
-# Getting Started with Create React App
+# 📊 Smart Sensor Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Um dashboard interativo para monitoramento de sensores com atualização automática de dados, tela de loading personalizada e geração aleatória de localizações fictícias.
 
-## Available Scripts
+## 📋 Índice
 
-In the project directory, you can run:
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Instalação](#instalação)
+- [Como Usar](#como-usar)
+- [Ciclo de Funcionamento](#ciclo-de-funcionamento)
+- [Componentes](#componentes)
+- [Personalização](#personalização)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
 
-### `npm start`
+## 🎯 Sobre o Projeto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+O **Smart Sensor Dashboard** é uma aplicação React que simula um painel de controle para monitoramento de sensores. O sistema exibe dados de diferentes tipos de sensores (temperatura, umidade, pressão, etc.) em um layout responsivo, com atualizações automáticas a cada 13 segundos.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Durante cada atualização, o dashboard exibe uma tela de loading com uma mensagem personalizada e uma localização fictícia aleatória, criando uma experiência mais dinâmica e envolvente.
 
-### `npm test`
+## ✨ Funcionalidades
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Dashboard responsivo** com grid layout (2x2 e 3x1)
+- **Cards duplos** para sensores emparelhados (Umidade + Pressão)
+- **Cards individuais** para os demais sensores
+- **Atualização automática** a cada 13 segundos
+- **Tela de loading** com animação de círculo giratório
+- **Geração aleatória** de cidades e países fictícios
+- **Timer de 10 segundos** para exibição dos dados
+- **Timer de 3 segundos** para tela de loading
+- **Background unificado** entre dashboard e loading
+- **Dados simulados** gerados aleatoriamente
 
-### `npm run build`
+## 🛠️ Tecnologias Utilizadas
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Tecnologia        | Descrição                                  |
+| ----------------- | ------------------------------------------ |
+| React 18+         | Biblioteca principal para construção da UI |
+| Styled Components | Estilização componentizada com CSS-in-JS   |
+| JavaScript (ES6+) | Lógica da aplicação                        |
+| Webpack           | Bundler e servidor de desenvolvimento      |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📁 Estrutura do Projeto
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
 
-### `npm run eject`
+src/
+├── components/
+│ ├── SensorCard.jsx # Card para sensor individual
+│ └── DualSensorCard.jsx # Card para dois sensores
+├── pages/
+│ ├── DashboardPage.jsx # Página principal do dashboard
+│ └── LoadingPage.jsx # Tela de carregamento
+├── services/
+│ └── SensorDataService.js # Serviço de geração de dados
+└── assets/
+└── loading.png # Imagem da tela de loading
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🚀 Instalação
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Pré-requisitos
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Node.js (versão 14 ou superior)
+- npm ou yarn
 
-## Learn More
+### Passos para instalação
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/smart-sensor-dashboard.git
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Entre no diretório do projeto
+cd smart-sensor-dashboard
 
-### Code Splitting
+# Instale as dependências
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Ou com yarn
+yarn install
 
-### Analyzing the Bundle Size
+# Inicie o servidor de desenvolvimento
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Ou com yarn
+yarn start
+```
 
-### Making a Progressive Web App
+A aplicação estará disponível em `http://localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 💻 Como Usar
 
-### Advanced Configuration
+1. A aplicação inicia automaticamente com dados de sensores
+2. O dashboard exibe os sensores organizados:
+   - **Topo**: Sensor duplo (Umidade + Pressão) na esquerda e um sensor individual na direita
+   - **Base**: 3 sensores individuais em linha
+3. Após 10 segundos, a tela de loading aparece por 3 segundos
+4. Novos dados são carregados e exibidos
+5. O ciclo se repete indefinidamente
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🔄 Ciclo de Funcionamento
 
-### Deployment
+```
+┌─────────────────────────────────────────────────────────┐
+│                    CICLO COMPLETO (13s)                 │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│   ┌──────────────┐      ┌──────────────┐                │
+│   │   DADOS      │ ──►  │   LOADING    │ ──► (repete)   │
+│   │   (10s)      │      │    (3s)      │                │
+│   └──────────────┘      └──────────────┘                │
+│                                                         │
+│   Durante o loading:                                    │
+│   • Texto "Carregando novos dados..."                   │
+│   • Animação de círculo girando                         │
+│   • Localização aleatória (ex: "Nova Aurora, Eldoria")  │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🧩 Componentes
 
-### `npm run build` fails to minify
+### DashboardPage.jsx
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Página principal que gerencia:
+
+- Estado dos sensores
+- Timer de atualização
+- Organização dos cards
+- Ciclo de loading/dados
+
+### LoadingPage.jsx
+
+Tela de carregamento com:
+
+- Animação de círculo giratório
+- Imagem centralizada
+- Mensagem "Carregando novos dados..."
+- Localização fictícia aleatória
+
+### SensorCard.jsx
+
+Card para sensor individual que exibe:
+
+- Tipo do sensor (ex: "Temperatura")
+- Valor atual
+- Unidade de medida
+
+### DualSensorCard.jsx
+
+Card duplo que exibe dois sensores lado a lado (ex: Umidade e Pressão)
+
+### SensorDataService.js
+
+Serviço que gera dados aleatórios simulando leituras de sensores reais.
+
+## 🎨 Personalização
+
+### Alterar o tempo de exibição
+
+No arquivo `DashboardPage.jsx`, ajuste o valor do `setInterval`:
+
+```javascript
+// 10s dados + 3s loading = 13000ms
+intervalRef.current = setInterval(() => {
+  fetchNewData();
+}, 13000); // Altere este valor
+```
+
+### Alterar cores
+
+No `LoadingPage.jsx`:
+
+```javascript
+border-top-color: #3498db; // Cor do círculo de loading
+```
+
+### Adicionar mais cidades/países
+
+No `DashboardPage.jsx`, edite os arrays:
+
+```javascript
+const cities = ["Nova Aurora", "Vale do Sol", "Sua Cidade aqui"];
+
+const countries = ["Eldoria", "Valdoria", "Seu País aqui"];
+```
+
+### Alterar imagem de loading
+
+Substitua o arquivo em `./assets/loading.png` ou altere o caminho no componente:
+
+```jsx
+<LoadingImage src="./seu-caminho/nova-imagem.png" alt="Loading" />
+```
+
+## 📊 Exemplo de Dados
+
+Os dados gerados pelo serviço incluem:
+
+| Tipo                | Faixa de Valores | Unidade |
+| ------------------- | ---------------- | ------- |
+| Temperatura         | -10°C a 40°C     | °C      |
+| Umidade             | 0% a 100%        | %       |
+| Pressão             | 950hPa a 1050hPa | hPa     |
+| Velocidade do Vento | 0 km/h a 50 km/h | km/h    |
+| Qualidade do Ar     | 0 a 500          | AQI     |
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Siga os passos:
+
+1. Faça um Fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## 👥 Autores
+
+- **Leonardo Chaves** - _Desenvolvimento inicial_ - [LeoAChaves](https://github.com/LeoAChaves)
+
+## 🙏 Agradecimentos
+
+- Inspirado em sistemas de monitoramento IoT
+- Ícones e assets de domínio público
+- Comunidade React pelo excelente ecossistema
+
+---
+
+## 📞 Suporte
+
+Para questões, bugs ou sugestões, abra uma issue no [GitHub Issues](https://github.com/seu-usuario/smart-sensor-dashboard/issues)
+
+---
+
+**Desenvolvido com ❤️ e React**
