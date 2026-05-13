@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SensorCard from "../components/SensorCard";
 import DualSensorCard from "../components/DualSensorCard";
 import getRandomSensorData from "../services/SensorDataService";
@@ -12,7 +12,6 @@ const DashboardContainer = styled.div`
   gap: 16px;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #f5f5f5;
 `;
 
 const TopRow = styled.div`
@@ -27,27 +26,62 @@ const BottomRow = styled.div`
   gap: 16px;
 `;
 
-// Wrapper para garantir altura igual em todos os cards
 const CardWrapper = styled.div`
   height: 100%;
 `;
 
+// Listas de cidades e países fictícios
+const cities = [
+  "Nova Aurora",
+  "Vale do Sol",
+  "Porto das Estrelas",
+  "Monte Verde",
+  "Cidade dos Ventos",
+  "São Lucas",
+  "Bela Vista",
+  "Rio das Flores",
+  "Campo Grande do Sul",
+  "Vila Esperança",
+  "Morro Azul",
+  "Pedra Branca",
+  "Lagoa Serena",
+  "Jardim do Éden",
+  "Cristalina",
+  "Santa Fé",
+];
+
+const countries = [
+  "Eldoria",
+  "Valdoria",
+  "Mystralia",
+  "Aetheria",
+  "Nordlandia",
+  "Sulvania",
+  "Ocidentia",
+  "Orientalis",
+  "Terra Nova",
+  "Aquilônia",
+  "Verdelândia",
+  "Montanhas Altas",
+  "Reino do Sol",
+  "Império Lunar",
+  "Confederação das Águas",
+  "União dos Vales",
+];
+
+// Função para gerar localização aleatória
+const getRandomLocation = () => {
+  const randomCity = cities[Math.floor(Math.random() * cities.length)];
+  const randomCountry = countries[Math.floor(Math.random() * countries.length)];
+  return `${randomCity}, ${randomCountry}`;
+};
+
 function DashboardPage() {
   const [sensors, setSensors] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchSensors() {
-      setLoading(true);
-      const data = await getRandomSensorData();
-      setSensors(data);
-      setLoading(false);
-    }
-
-    fetchSensors();
-    const interval = setInterval(fetchSensors, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  const [currentLocation, setCurrentLocation] = useState("");
+  const timeoutRef = useRef(null);
+  const intervalRef = useRef(null);
 
   const organizeSensors = (sensors) => {
     const humiditySensor = sensors.find((s) => s.type === "Umidade");
@@ -66,8 +100,53 @@ function DashboardPage() {
     };
   };
 
+  useEffect(() => {
+    // Função para buscar novos dados
+    const fetchNewData = async () => {
+      // Gera localização aleatória
+      const newLocation = getRandomLocation();
+      setCurrentLocation(newLocation);
+
+      setLoading(true);
+
+      const data = await getRandomSensorData();
+
+      // Após buscar, espera 3 segundos antes de remover o loading
+      timeoutRef.current = setTimeout(() => {
+        setSensors(data);
+        setLoading(false);
+      }, 3000);
+    };
+
+    // Primeira carga inicial
+    const initialFetch = async () => {
+      setLoading(true);
+      const data = await getRandomSensorData();
+      setSensors(data);
+
+      // Primeira exibição: dados carregados
+      setTimeout(() => {
+        setLoading(false);
+      }, 0);
+    };
+
+    initialFetch();
+
+    // Configura o intervalo para executar o ciclo a cada 13 segundos
+    intervalRef.current = setInterval(() => {
+      fetchNewData();
+    }, 13000);
+
+    // Cleanup
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Ignoramos o warning porque não queremos recriar o intervalo
+
   if (loading) {
-    return <LoadingPage />;
+    return <LoadingPage location={currentLocation} />;
   }
 
   const { pairedSensor, singleSensors } = organizeSensors(sensors);

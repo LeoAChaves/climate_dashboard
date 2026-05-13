@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
-// Keyframes for the spinning animation
 const spin = keyframes`
   from {
     transform: rotate(0deg);
@@ -11,38 +10,74 @@ const spin = keyframes`
   }
 `;
 
-// Styled container
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const LoadingContainer = styled.div`
-  position: relative;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`;
+
+// Container que usa flexbox para centralizar os dois elementos
+const CenteredContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 150px;
+  height: 150px;
 `;
 
-// Styled image
 const LoadingImage = styled.img`
-  width: 150px; // Adjust size as needed
-  height: 150px; // Adjust size as needed
-  z-index: 1;
+  width: 150px;
+  height: 150px;
+  z-index: 2;
 `;
 
-// Styled animation circle
 const LoadingCircle = styled.div`
   position: absolute;
-  width: 180px; // Slightly larger than the image
-  height: 180px; // Slightly larger than the image
-  border: 10px solid transparent;
-  border-top-color: #3498db; // Blue, but choose any color you like
+  width: 180px;
+  height: 180px;
+  border: 8px solid rgba(52, 152, 219, 0.2);
+  border-top-color: #3498db;
   border-radius: 50%;
-  animation: ${spin} 2s linear infinite;
+  animation: ${spin} 1.5s linear infinite;
 `;
 
-const LoadingPage = () => {
+const LoadingText = styled.p`
+  font-size: 18px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  animation: ${fadeIn} 1s ease-in-out;
+`;
+
+const LocationText = styled.p`
+  font-size: 16px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-style: italic;
+  animation: ${fadeIn} 0.5s ease-in-out;
+`;
+
+const LoadingPage = ({ location }) => {
   return (
     <LoadingContainer>
-      <LoadingCircle />
-      <LoadingImage src="./assets/loading.png" alt="Loading" />
+      <CenteredContainer>
+        <LoadingCircle />
+        <LoadingImage src="./assets/loading.png" alt="Loading" />
+      </CenteredContainer>
+      <LoadingText>Carregando novos dados...</LoadingText>
+      {location && <LocationText>{location}</LocationText>}
     </LoadingContainer>
   );
 };
