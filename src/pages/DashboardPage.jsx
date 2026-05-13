@@ -2,36 +2,46 @@ import React, { useState, useEffect } from "react";
 import SensorCard from "../components/SensorCard";
 import DualSensorCard from "../components/DualSensorCard";
 import getRandomSensorData from "../services/SensorDataService";
-import LoadingPage from "./LoadingPage"; // Import LoadingPage component
+import LoadingPage from "./LoadingPage";
 import styled from "styled-components";
 
 const DashboardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: flex-start;
-  gap: 20px;
-  margin: 20px;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+`;
 
-  @media (max-width: 768px) {
-    justify-content: space-between;
-  }
+const TopRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+`;
 
-  @media (min-width: 250px) and (max-width: 768px) {
-    justify-content: flex-start;
-  }
+const BottomRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+`;
+
+// Wrapper para garantir altura igual em todos os cards
+const CardWrapper = styled.div`
+  height: 100%;
 `;
 
 function DashboardPage() {
   const [sensors, setSensors] = useState([]);
-  const [loading, setLoading] = useState(true); // State to handle loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchSensors() {
-      setLoading(true); // Start loading
+      setLoading(true);
       const data = await getRandomSensorData();
       setSensors(data);
-      setLoading(false); // End loading after data is fetched
+      setLoading(false);
     }
 
     fetchSensors();
@@ -39,50 +49,58 @@ function DashboardPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const findAndPairSensors = (sensors) => {
-    const paired = [];
-    const tempSensors = [...sensors];
+  const organizeSensors = (sensors) => {
+    const humiditySensor = sensors.find((s) => s.type === "Umidade");
+    const pressureSensor = sensors.find((s) => s.type === "Pressão");
 
-    const humiditySensor = tempSensors.find(
-      (sensor) => sensor.type === "Umidade"
-    );
-    const pressureSensor = tempSensors.find(
-      (sensor) => sensor.type === "Pressão"
+    const remainingSensors = sensors.filter(
+      (s) => s.type !== "Umidade" && s.type !== "Pressão",
     );
 
-    if (humiditySensor && pressureSensor) {
-      paired.push({ sensor1: humiditySensor, sensor2: pressureSensor });
-      tempSensors.splice(tempSensors.indexOf(humiditySensor), 1);
-      tempSensors.splice(tempSensors.indexOf(pressureSensor), 1);
-    }
-
-    return [paired, ...tempSensors];
-  };
-
-  const renderSensors = () => {
-    const [pairedSensors, ...individualSensors] = findAndPairSensors(sensors);
-
-    return (
-      <>
-        {pairedSensors.map((pair, index) => (
-          <DualSensorCard
-            key={`pair-${index}`}
-            sensor1={pair.sensor1}
-            sensor2={pair.sensor2}
-          />
-        ))}
-        {individualSensors.map((sensor) => (
-          <SensorCard key={sensor.type} sensor={sensor} />
-        ))}
-      </>
-    );
+    return {
+      pairedSensor:
+        humiditySensor && pressureSensor
+          ? { sensor1: humiditySensor, sensor2: pressureSensor }
+          : null,
+      singleSensors: remainingSensors,
+    };
   };
 
   if (loading) {
     return <LoadingPage />;
   }
 
-  return <DashboardContainer>{renderSensors()}</DashboardContainer>;
+  const { pairedSensor, singleSensors } = organizeSensors(sensors);
+  const topSingleCard = singleSensors[0];
+  const bottomCards = singleSensors.slice(1, 4);
+
+  return (
+    <DashboardContainer>
+      <TopRow>
+        {pairedSensor && (
+          <CardWrapper>
+            <DualSensorCard
+              sensor1={pairedSensor.sensor1}
+              sensor2={pairedSensor.sensor2}
+            />
+          </CardWrapper>
+        )}
+        {topSingleCard && (
+          <CardWrapper>
+            <SensorCard sensor={topSingleCard} />
+          </CardWrapper>
+        )}
+      </TopRow>
+
+      <BottomRow>
+        {bottomCards.map((sensor, index) => (
+          <CardWrapper key={index}>
+            <SensorCard sensor={sensor} />
+          </CardWrapper>
+        ))}
+      </BottomRow>
+    </DashboardContainer>
+  );
 }
 
 export default DashboardPage;

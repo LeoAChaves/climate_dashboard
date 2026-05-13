@@ -6,20 +6,9 @@ const Card = styled.div`
   position: relative;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #333;
   overflow: hidden;
+  height: 100%;
   width: 100%;
-  max-width: 300px; // Limita o tamanho máximo
-  aspect-ratio: 1; // Mantém a proporção de 1:1
-
-  @media (max-width: 768px) {
-    max-width: 50%; // Ajusta para que dois cartões possam se alinhar lado a lado
-    height: auto; // Ajusta a altura baseada na largura para manter proporção
-  }
-
-  @media (max-width: 500px) {
-    max-width: 100%; // Ajusta para um cartão por linha em telas muito pequenas
-  }
 
   &::before {
     content: "";
@@ -32,7 +21,6 @@ const Card = styled.div`
     background-size: cover;
     background-position: center;
     opacity: 1;
-    border-radius: 20px;
     z-index: 0;
   }
 
@@ -43,40 +31,35 @@ const Card = styled.div`
 `;
 
 const ReadingBox = styled.div`
-  border-radius: 16px;
-  padding: 10px 15px;
   position: absolute;
   top: 16px;
   right: 16px;
-  text-align: left;
+  border-radius: 16px;
+  padding: 12px 16px;
+  text-align: center;
 `;
 
 const ClassificationBox = styled.div`
-  border-radius: 16px;
-  padding: 10px;
-  position: absolute; // Posiciona absolutamente dentro do Card
+  position: absolute;
   bottom: 16px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 16px;
+  padding: 8px 16px;
   text-align: center;
-  margin: auto;
-  min-width: 100px;
-  width: fit-content; // Ajusta o tamanho ao conteúdo
+  white-space: nowrap;
 `;
 
 const SensorType = styled.div`
-  font-size: 12px; // Fonte menor para o tipo do sensor
-  font-weight: normal;
-  text-align: center;
+  font-size: 12px;
   color: #222;
 `;
 
 const SensorValue = styled.div`
-  font-size: 16px; // Fonte maior para o valor da leitura
+  font-size: 20px;
   font-weight: bold;
   color: #000;
   margin-top: 4px;
-  text-align: center;
 `;
 
 const Classification = styled.div`
@@ -87,7 +70,7 @@ const Classification = styled.div`
 function SensorCard({ sensor }) {
   const { imageSrc, classification, unit, backgroundColor } = getImageForSensor(
     sensor.type,
-    sensor.value
+    sensor.value,
   );
 
   return (
