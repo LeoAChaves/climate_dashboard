@@ -2,20 +2,6 @@
 
 Um dashboard interativo para monitoramento de sensores com atualização automática de dados, tela de loading personalizada e geração aleatória de localizações fictícias.
 
-## 📋 Índice
-
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Funcionalidades](#funcionalidades)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Instalação](#instalação)
-- [Como Usar](#como-usar)
-- [Ciclo de Funcionamento](#ciclo-de-funcionamento)
-- [Componentes](#componentes)
-- [Personalização](#personalização)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
-
 ## 🎯 Sobre o Projeto
 
 O **Smart Sensor Dashboard** é uma aplicação React que simula um painel de controle para monitoramento de sensores. O sistema exibe dados de diferentes tipos de sensores (temperatura, umidade, pressão, etc.) em um layout responsivo, com atualizações automáticas a cada 13 segundos.
