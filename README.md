@@ -1,6 +1,25 @@
 # 📊 Smart Sensor Dashboard
 
+[![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Styled Components](https://img.shields.io/badge/Styled_Components-6.0+-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)](https://styled-components.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://climate-dashboard-alpha-one.vercel.app/)
+
 Um dashboard interativo para monitoramento de sensores com atualização automática de dados, tela de loading personalizada e geração aleatória de localizações fictícias.
+
+## 🚀 Demo ao Vivo
+
+**Acesse o dashboard em produção:** [https://climate-dashboard-alpha-one.vercel.app/](https://climate-dashboard-alpha-one.vercel.app/)
+
+O dashboard exibe em tempo real simulações de:
+
+- 🌡️ **Temperatura**: -2°C (Congelando)
+- 💧 **Umidade**: 71%
+- ⚡ **Pressão**: 991 hPa (Normal)
+- 🛡️ **UV**: 11 W/m² (Extremo)
+- 💨 **Vento**: 78 km/h (Brisa Forte)
+- 🌧️ **Pluviômetro**: 45 mm (Chuva Forte)
+
+> 🔄 O sistema atualiza os dados automaticamente a cada 13 segundos, alternando entre a exibição dos dados e uma tela de carregamento com localizações fictícias.
 
 ## 🎯 Sobre o Projeto
 
@@ -79,16 +98,6 @@ yarn start
 
 A aplicação estará disponível em `http://localhost:3000`
 
-## 💻 Como Usar
-
-1. A aplicação inicia automaticamente com dados de sensores
-2. O dashboard exibe os sensores organizados:
-   - **Topo**: Sensor duplo (Umidade + Pressão) na esquerda e um sensor individual na direita
-   - **Base**: 3 sensores individuais em linha
-3. Após 10 segundos, a tela de loading aparece por 3 segundos
-4. Novos dados são carregados e exibidos
-5. O ciclo se repete indefinidamente
-
 ## 🔄 Ciclo de Funcionamento
 
 ```
@@ -108,6 +117,16 @@ A aplicação estará disponível em `http://localhost:3000`
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
+
+## 💻 Como Usar
+
+1. A aplicação inicia automaticamente com dados de sensores
+2. O dashboard exibe os sensores organizados:
+   - **Topo**: Sensor duplo (Umidade + Pressão) na esquerda e um sensor individual na direita
+   - **Base**: 3 sensores individuais em linha
+3. Após 10 segundos, a tela de loading aparece por 3 segundos
+4. Novos dados são carregados e exibidos
+5. O ciclo se repete indefinidamente
 
 ## 🧩 Componentes
 
@@ -206,11 +225,7 @@ Contribuições são bem-vindas! Siga os passos:
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
-## 👥 Autores
+## 👥 Autor
 
 - **Leonardo Chaves** - _Desenvolvimento inicial_ - [LeoAChaves](https://github.com/LeoAChaves)
 
@@ -220,12 +235,18 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 - Ícones e assets de domínio público
 - Comunidade React pelo excelente ecossistema
 
----
+## 📄 Licença
 
-## 📞 Suporte
-
-Para questões, bugs ou sugestões, abra uma issue no [GitHub Issues](https://github.com/seu-usuario/smart-sensor-dashboard/issues)
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
 ---
 
-**Desenvolvido com ❤️ e React**
+<div align="center">
+  <strong>
+    <a href="https://climate-dashboard-alpha-one.vercel.app/">🌐 Acessar Demo</a>
+  </strong>
+  <br>
+  Desenvolvido com ❤️ e React
+</div>
+
+---
